@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>honestpuck.reminders</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>95FDD07A-0F16-42A2-8483-710E56DC2E47</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>ED3D8CEE-AA0D-4948-9701-3E68714CC04D</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Tony Williams</string>
+	<key>description</key>
+	<string>Creates a reminder</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Create Reminder</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>rm</string>
+				<key>text</key>
+				<string>Create Reminder</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>95FDD07A-0F16-42A2-8483-710E56DC2E47</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>applescript</key>
+				<string>on alfred_script(q)		set defaultTime to "9:00AM" -- default time for a reminder	set defaultList to "Reminders" -- the default list to add our reminder to		if q contains "#" then -- we have a list name at the end		set splitReminder to explode("# ", q)		set theList to item 2 of splitReminder		set q to item 1 of splitReminder	else		set theList to defaultList	end if		if q contains "@" then -- we have a due date		set splitReminder to explode("@", q)		set remText to item 1 of splitReminder		set remDue to item 2 of splitReminder		set splitDue to explode(" ", remDue)		set dueDate to item 2 of splitDue
+		if dueDate = "today" then
+			set dueDate to (do shell script "date +%D")
+		end		set dueTime to ""		if length of splitDue &gt; 2 then set dueTime to uppercase(item 3 of splitDue)		if dueTime is equal to "" then set dueTime to "9:00AM"				set myDueTime to dueTime				if dueTime does not contain ":" then			# just a bare hour with no minutes			if dueTime contains "AM" then				# AM at end				set myHour to text 1 through -3 of dueTime				set myDueTime to (myHour &amp; ":00AM") as string			else				# PM at end					set myHour to text 1 through -3 of dueTime				set myDueTime to (myHour &amp; ":00PM") as string
+			end if		end if				set remDate to date (dueDate &amp; " " &amp; myDueTime)	else		set remText to q		set remDate to ""	end if	tell application "Reminders"		set listExists to false		set theLists to the lists		repeat with theOne in theLists			if the name of theOne as string is theList then				set listExists to true			end if		end repeat		if not listExists then			make new list with properties {name:theList}		end if				tell list theList			if remDate is not "" then				make new reminder with properties {name:remText, due date:remDate}			else				make new reminder with properties {name:remText}			end if		end tell	end tellend alfred_scriptto uppercase(text_to_process)	set lowercasestring to "abcdefghijklmnopqrstuvwxyz"	set uppercasestring to "ABCDEFGHIJKLMNOPQRSTUVWXYZ"	set tid to text item delimiters	repeat with loop from 1 to count lowercasestring		set the lower_letter to item loop of lowercasestring		set the text item delimiters to the lower_letter		set the character_list to the text items of the text_to_process		set the text item delimiters to item loop of the uppercasestring		set the text_to_process to the character_list as text	end repeat	set text item delimiters to ""	return the text_to_processend uppercaseon explode(delimiter, input)	local delimiter, input, ASTID	set ASTID to AppleScript's text item delimiters	try		set AppleScript's text item delimiters to delimiter		set input to text items of input		set AppleScript's text item delimiters to ASTID		return input --&gt; list on error eMsg number eNum		set AppleScript's text item delimiters to ASTID		error "Can't explode: " &amp; eMsg number eNum	end tryend explode</string>
+				<key>cachescript</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.applescript</string>
+			<key>uid</key>
+			<string>ED3D8CEE-AA0D-4948-9701-3E68714CC04D</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>uidata</key>
+	<dict>
+		<key>95FDD07A-0F16-42A2-8483-710E56DC2E47</key>
+		<dict>
+			<key>ypos</key>
+			<real>40</real>
+		</dict>
+		<key>ED3D8CEE-AA0D-4948-9701-3E68714CC04D</key>
+		<dict>
+			<key>ypos</key>
+			<real>40</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>http://honestpuck.wordpress.com/</string>
+</dict>
+</plist>

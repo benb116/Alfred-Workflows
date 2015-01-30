@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.BenB116.ToggleHidden</string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>464B5DB7-415E-4006-A609-A292783514C2</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>159A291E-3339-491E-8D3F-79091BE0319B</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>80012FF2-8369-464D-B6A3-D6BD3A5AB660</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>464B5DB7-415E-4006-A609-A292783514C2</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Ben Bernstein</string>
+	<key>description</key>
+	<string>Shows or hides hidden files in Finder</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Toggle Hidden Files</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>output</key>
+				<integer>0</integer>
+				<key>removeextension</key>
+				<false/>
+				<key>sticky</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>159A291E-3339-491E-8D3F-79091BE0319B</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>if [[ "{query}" == "off" ]]
+then
+	defaults write com.apple.finder AppleShowAllFiles false
+elif [[ "{query}" == "on" ]]
+then
+	defaults write com.apple.finder AppleShowAllFiles true
+else
+	echo "{query}" | pbcopy
+fi
+killall Finder</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>464B5DB7-415E-4006-A609-A292783514C2</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>hide</string>
+				<key>runningsubtext</key>
+				<string>Please Wait</string>
+				<key>script</key>
+				<string>echo "&lt;?xml version=\"1.0\"?&gt;"
+echo "&lt;items&gt;"
+
+if [[ $(defaults read com.apple.finder AppleShowAllFiles) == "false" ]]
+then
+// Show hidden files
+	echo "&lt;item uid=\"hidden turn on\" arg=\"on\"&gt;&lt;title&gt;Show hidden files&lt;/title&gt;&lt;subtitle&gt;&lt;/subtitle&gt;&lt;icon&gt;icon.png&lt;/icon&gt;&lt;/item&gt;"
+
+else
+
+// Hide hidden files
+echo "&lt;item uid=\"hidden turn off\" arg=\"off\"&gt;&lt;title&gt;Hide hidden files&lt;/title&gt;&lt;subtitle&gt;&lt;/subtitle&gt;&lt;icon&gt;icon.png&lt;/icon&gt;&lt;/item&gt;"
+
+fi
+
+echo "&lt;/items&gt;"
+</string>
+				<key>subtext</key>
+				<string>Press enter to toggle</string>
+				<key>title</key>
+				<string>Toggle Hidden Files</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>80012FF2-8369-464D-B6A3-D6BD3A5AB660</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>159A291E-3339-491E-8D3F-79091BE0319B</key>
+		<dict>
+			<key>ypos</key>
+			<real>60</real>
+		</dict>
+		<key>464B5DB7-415E-4006-A609-A292783514C2</key>
+		<dict>
+			<key>ypos</key>
+			<real>60</real>
+		</dict>
+		<key>80012FF2-8369-464D-B6A3-D6BD3A5AB660</key>
+		<dict>
+			<key>ypos</key>
+			<real>60</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>BenBernstein.me</string>
+</dict>
+</plist>
